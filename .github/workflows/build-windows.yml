@@ -35,7 +35,7 @@ jobs:
         echo "Just double-click VACalculatorApp-Windows.exe to run!" >> dist\README.txt
         
     - name: Upload Standalone EXE
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: VACalculator-Windows-Standalone
         path: dist/
