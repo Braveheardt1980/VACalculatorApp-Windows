@@ -39,10 +39,11 @@ jobs:
       with:
         name: VACalculator-Windows-Standalone
         path: dist/
+        retention-days: 30
         
     - name: Create Release (on tag)
       if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: dist/VACalculatorApp-Windows.exe
         body: |
