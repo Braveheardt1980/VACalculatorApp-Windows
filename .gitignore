@@ -1,0 +1,34 @@
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+*.xcodeproj
+xcuserdata/
+DerivedData/
+.DS_Store
+
+# Windows specific
+*.exe
+*.dll
+*.pdb
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Build artifacts
+/build/
+/dist/
+/VACalculator-Portable/

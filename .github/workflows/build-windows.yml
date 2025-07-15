@@ -1,0 +1,59 @@
+name: Build Windows Standalone EXE
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install Swift
+      uses: compnerd/gha-setup-swift@main
+      with:
+        branch: swift-5.9-release
+        tag: 5.9-RELEASE
+    
+    - name: Install GTK (if needed)
+      run: |
+        choco install gtk-runtime -y
+        
+    - name: Build Static Executable
+      run: |
+        swift build --configuration release --static-swift-stdlib
+        
+    - name: Create Distribution Folder
+      run: |
+        mkdir dist
+        copy .build\release\VACalculatorApp-Windows.exe dist\
+        echo "VA Calculator - Professional Vibration Analysis" > dist\README.txt
+        echo "Just double-click VACalculatorApp-Windows.exe to run!" >> dist\README.txt
+        
+    - name: Upload Standalone EXE
+      uses: actions/upload-artifact@v3
+      with:
+        name: VACalculator-Windows-Standalone
+        path: dist/
+        
+    - name: Create Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/VACalculatorApp-Windows.exe
+        body: |
+          ## VA Calculator for Windows
+          
+          **Standalone executable - No installation required!**
+          
+          Just download and double-click `VACalculatorApp-Windows.exe` to run.
+          
+          ### Features:
+          - Professional vibration analysis calculations
+          - Normal and PeakVue AP Set calculations  
+          - Support for generic and specific bearings
+          - No Swift runtime required
